@@ -5,8 +5,10 @@ import Paginations from '@/commonComponents/Paginations'
 import axios from 'axios';
 import { getTokenFromLocalStorage } from '@/utils/getToken';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 function SchoolList() {
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [schoolList, setSchoolList] = useState<any[]>([]);
 
@@ -14,7 +16,10 @@ function SchoolList() {
     try {
       setLoading(true)
       const token = getTokenFromLocalStorage();
-      if (!token) return toast.error(" Please login to continue")
+      if (!token) {
+        toast.error(" Please login to continue")
+        router.push('/login')
+      }
 
       const URL = process.env.BASE_URL || 'http://localhost:3001'
 
